@@ -27,3 +27,6 @@ out/
 
 # Ignore folder named '.idea'
 .idea/
+
+#Ignore foder named 'target'
+target/
