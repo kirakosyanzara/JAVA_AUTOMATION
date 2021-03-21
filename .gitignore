@@ -30,3 +30,6 @@ out/
 
 #Ignore foder named 'target'
 target/
+
+#Ignore Maven file
+Maven.iml
