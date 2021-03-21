@@ -21,7 +21,7 @@ public class SeleniumWebDriverTest {
         WebElement searchElement = driver.findElement(By.xpath("//input[@name='search']"));
         String searchName = "selenium webdriver";
         searchElement.sendKeys(searchName + Keys.ENTER);
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         WebElement actualLinkName = driver.findElement(By.xpath("//div[@class='gsc-thumbnail-inside']//b[contains(text(),'Selenium WebDriver')]"));
         String linkName = actualLinkName.getText().toLowerCase();
         Assert.assertEquals(linkName, searchName);
