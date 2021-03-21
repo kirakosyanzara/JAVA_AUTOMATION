@@ -6,25 +6,40 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class SeleniumWebDriverTest {
-    @Test
-    public void testDriver() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.get("https://www.selenium.dev");
-        Thread.sleep(3000);
-        driver.findElement(By.xpath("//a[@class='nav-item' and normalize-space()='Downloads']")).click();
-        String stableVersion = "3.141.59";
-        WebElement actualElement = driver.findElement(By.xpath("//a[normalize-space()='3.141.59']"));
-        String actualName = actualElement.getText();
-        WebElement searchElement = driver.findElement(By.xpath("//input[@name='search']"));
-        String searchName = "selenium webdriver";
-        searchElement.sendKeys(searchName + Keys.ENTER);
-        Thread.sleep(5000);
-        WebElement actualLinkName = driver.findElement(By.xpath("//div[@class='gsc-thumbnail-inside']//b[contains(text(),'Selenium WebDriver')]"));
-        String linkName = actualLinkName.getText().toLowerCase();
-        Assert.assertEquals(linkName, searchName);
-        driver.quit();
+        @Test
+        public void testDriver() throws InterruptedException {
+            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+            WebDriver driver = new ChromeDriver();
+            driver.manage().window().maximize();
+            driver.get("https://www.selenium.dev");
+            Thread.sleep(3000);
+            driver.findElement(By.xpath("//a[@class='nav-item' and normalize-space()='Downloads']")).click();
+            String stableVersion = "3.141.59";
+            WebElement actualElement = driver.findElement(By.xpath("//a[@href=\"https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar\" and text()='3.141.59']"));
+            String actualName = actualElement.getText();
+            Assert.assertEquals(actualName, stableVersion, "Verify the latest stable version is 3.141.59!");
+            WebElement searchElement = driver.findElement(By.xpath("//input[@name='search']"));
+            String searchName = "selenium webdriver";
+            searchElement.sendKeys(searchName + Keys.ENTER);
+            Thread.sleep(5000);
+            List<WebElement> links = driver.findElements(By.tagName("a"));
+            for (WebElement element : links) {
+                if (element.getText().contains("Selenium WebDriver")) {
+                    System.out.println(element.getText());
+                    String linkName = element.getText().toLowerCase();
+                    Assert.assertEquals(linkName, searchName, "Verify the found link contains our desired phrase!");
+                }
+            }
+            driver.quit();
+        }
     }
-}
+
+
+
+
+
+
+
